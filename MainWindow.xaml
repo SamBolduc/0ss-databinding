@@ -1,0 +1,20 @@
+﻿<Window x:Class="Exercices.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercices"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid Margin="25">
+        
+        <StackPanel Margin="10" Width="250">
+            <Slider x:Name="slider" VerticalAlignment="Center" MaxWidth="250"/>
+            <TextBox Margin="0 15 25 10" MinWidth="150" MaxWidth="250" Text="{Binding ElementName=slider, Path=Value, UpdateSourceTrigger=PropertyChanged, Delay=100, StringFormat=F2}"/>
+            <Image Source="{Binding Path=employee.PicturePath}" VerticalAlignment="Center" Height="250"/>
+            <TextBlock Text="{Binding Path=employee.Name}"/>
+            <TextBlock Text="{Binding Path=employee.LastName}"/>
+            <TextBlock Text="{Binding Path=employee.Age}"/>
+        </StackPanel>
+    </Grid>
+</Window>
