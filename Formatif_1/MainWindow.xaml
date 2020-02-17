@@ -5,11 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Formatif_1"
         mc:Ignorable="d"
-        Title="Game store" Height="385" Width="525" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        Title="Game store" Height="425" Width="750" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <WrapPanel>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Margin="12 12 0 0" Content="My Games: " HorizontalAlignment="Left"/>
+                        <Button Grid.Column="1" Grid.Row="0" Margin="0 14 0 0" Width="16" Height="16" HorizontalAlignment="Left" Click="ButtonBase_OnClick">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border 
+                                        x:Name="Border"  
+                                        CornerRadius="360" 
+                                        BorderThickness="1"
+                                        BorderBrush="DarkGray">
+                                        <ContentPresenter 
+                                            Content="+"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            RecognizesAccessKey="True"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                </Grid>
+        
+                <ListView x:Name="listView" Margin="12 0 0 0" ItemsSource="{Binding Games}" SelectedIndex="0" SelectionChanged="onGameChange">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Info}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
             <StackPanel MaxWidth="250" HorizontalAlignment="Left">
-                <Image VerticalAlignment="Top" Margin="12 12 0 12" Width="250" Height="300" Source="{Binding Path=CurrentGame.CoverPath}" />
+                <Border BorderThickness="2" BorderBrush="Black" Margin="12 12 0 12">
+                    <Button Background="Transparent" Click="EditCover">
+                        <Image VerticalAlignment="Top" Margin="12 12 12 12" Width="250" Height="300" Source="{Binding Path=CurrentGame.CoverPath}" />
+                    </Button>
+                </Border>
                 <Slider x:Name="slider" Minimum="0" Maximum="3" Interval="1" IsSnapToTickEnabled="True"  VerticalAlignment="Bottom" Margin="12 0 0 12" Orientation="Horizontal" ValueChanged="onChange"/>
             </StackPanel>
             <StackPanel MaxWidth="250" Margin="24 12 0 0" HorizontalAlignment="Right">
@@ -29,17 +68,17 @@
                         <ColumnDefinition Width="125"/>
                     </Grid.ColumnDefinitions>
             
-                    <Label Margin="0 0 0 12" Grid.Row="0"  Content="Title:"/>
-                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding Path=CurrentGame.Title}"/>
+                    <Label Grid.Row="0"  Content="Title:"/>
+                    <TextBox IsReadOnly="True" MouseDoubleClick="TextboxEdit" TextChanged="TitleChange" LostFocus="TextboxLostFocus" KeyUp="TextboxConfirm" BorderThickness="0" Margin="0 5 0 0" Grid.Row="0" Grid.Column="1" Text="{Binding Path=CurrentGame.Title}"/>
                 
-                    <Label Margin="0 0 0 2" Grid.Row="1" Grid.Column="0" Content="Description:"/>
-                    <TextBlock Margin="5 0 0 12" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=CurrentGame.Description}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Description:"/>
+                    <TextBox IsReadOnly="True" MouseDoubleClick="TextboxEdit" TextChanged="DescriptionChange" LostFocus="TextboxLostFocus" KeyUp="TextboxConfirm" BorderThickness="0" Margin="5 2 0 12" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=CurrentGame.Description}"/>
                     
-                    <Label Margin="0 0 0 12" Grid.Row="3" Grid.Column="0" Content="Editor:"/>
-                    <Label Grid.Row="3" Grid.Column="1" Content="{Binding Path=CurrentGame.Editor}"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Editor:"/>
+                    <TextBox IsReadOnly="True" MouseDoubleClick="TextboxEdit" TextChanged="EditorChange" LostFocus="TextboxLostFocus" KeyUp="TextboxConfirm" BorderThickness="0" Margin="5 5 0 12" Grid.Row="3" Grid.Column="1" Text="{Binding Path=CurrentGame.Editor}"/>
                     
                     <Label Margin="0 0 0 12" Grid.Row="4" Grid.Column="0" Content="Published Year:"/>
-                    <Label Grid.Row="4" Grid.Column="1" Content="{Binding Path=CurrentGame.ReleaseDate}"/>
+                    <TextBox IsReadOnly="True" PreviewTextInput="NumberValidationTextBox" MouseDoubleClick="TextboxEdit" TextChanged="YearChange" LostFocus="TextboxLostFocus" KeyUp="TextboxConfirm" Margin="5 5 0 12" BorderThickness="0" Grid.Row="4" Grid.Column="1" Text="{Binding Path=CurrentGame.ReleaseDate}"/>
                     
                     <Label Margin="0 0 0 12" Grid.Row="5" Grid.Column="0" Content="Game Console:"/>
                     <ComboBox Grid.Row="5" Grid.Column="1" Height="18" Margin="0 0 0 8" SelectedValuePath="Content" SelectedValue="{Binding CurrentGame.Console}">
